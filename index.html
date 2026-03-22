@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+
+<style>
+    body {
+        text-align: center;
+        font-family: Arial;
+        background: linear-gradient(to right, #ff9a9e, #fad0c4);
+        color: white;
+        overflow: hidden;
+    }
+
+    h1 {
+        margin-top: 60px;
+    }
+
+    button {
+        padding: 12px 25px;
+        font-size: 18px;
+        margin: 10px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+    }
+
+    #yes {
+        background: #4CAF50;
+        color: white;
+    }
+
+    #no {
+        background: #ff4d4d;
+        color: white;
+        position: absolute;
+    }
+
+    .scene {
+        display: none;
+        position: relative;
+        height: 400px;
+    }
+
+    .girl, .boy {
+        font-size: 70px;
+        position: absolute;
+        top: 180px;
+    }
+
+    .girl {
+        left: 20%;
+        cursor: grab;
+    }
+
+    .boy {
+        left: 65%;
+    }
+
+    .kiss {
+        font-size: 60px;
+        position: absolute;
+        top: 160px;
+        left: 50%;
+        display: none;
+    }
+
+    .name {
+        position: absolute;
+        top: 50%;
+        font-size: 30px;
+        font-weight: bold;
+        opacity: 0;
+        transition: all 2s ease;
+    }
+
+    #leftName {
+        left: -200px;
+    }
+
+    #rightName {
+        right: -200px;
+    }
+
+</style>
+</head>
+
+<body>
+
+<div id="question">
+    <h1>Will you be my life partner? 💍❤️</h1>
+    <button id="yes" onclick="start()">Yes 💖</button>
+    <button id="no" onmouseover="moveNo()">No 🙈</button>
+</div>
+
+<div class="scene" id="scene">
+    <h2>Drag her to me ❤️</h2>
+    <div class="girl" id="girl">👩</div>
+    <div class="boy" id="boy">👨</div>
+    <div class="kiss" id="kiss">💋</div>
+
+    <div class="name" id="leftName">Shailja</div>
+    <div class="name" id="rightName">Shobhit</div>
+</div>
+
+<script>
+function moveNo() {
+    let btn = document.getElementById("no");
+    btn.style.left = Math.random() * window.innerWidth + "px";
+    btn.style.top = Math.random() * window.innerHeight + "px";
+}
+
+function start() {
+    document.getElementById("question").style.display = "none";
+    document.getElementById("scene").style.display = "block";
+}
+
+let girl = document.getElementById("girl");
+let boy = document.getElementById("boy");
+let kiss = document.getElementById("kiss");
+
+let dragging = false;
+
+/* DESKTOP */
+girl.addEventListener("mousedown", () => dragging = true);
+document.addEventListener("mouseup", () => dragging = false);
+
+document.addEventListener("mousemove", (e) => {
+    if (dragging) moveGirl(e.clientX);
+});
+
+/* MOBILE TOUCH */
+girl.addEventListener("touchstart", () => dragging = true);
+document.addEventListener("touchend", () => dragging = false);
+
+document.addEventListener("touchmove", (e) => {
+    if (dragging) {
+        let touch = e.touches[0];
+        moveGirl(touch.clientX);
+    }
+});
+
+function moveGirl(x) {
+    girl.style.left = x + "px";
+
+    let g = girl.getBoundingClientRect();
+    let b = boy.getBoundingClientRect();
+
+    if (g.right >= b.left) {
+
+        kiss.style.display = "block";
+        girl.style.display = "none";
+        boy.style.display = "none";
+
+        setTimeout(showNames, 1200);
+    }
+}
+
+function showNames() {
+    let left = document.getElementById("leftName");
+    let right = document.getElementById("rightName");
+
+    left.style.opacity = "1";
+    right.style.opacity = "1";
+
+    left.style.left = "25%";
+    right.style.right = "25%";
+
+    setTimeout(() => {
+        document.body.innerHTML = "<h1>Shailja ❤️ Shobhit</h1><p>Forever starts now 💫</p>";
+    }, 2500);
+}
+</script>
+
+</body>
+</html>
